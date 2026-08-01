@@ -1,0 +1,26 @@
+pipeline {
+  agent any
+  stages {
+    stage('Checkout') {
+      steps {
+        echo 'Repository downloaded successfully'
+      }
+    }
+    stage('Build') {
+      steps {
+        sh 'pwd'
+        sh 'ls -la'
+      }
+    }
+    stage('Test') {
+      steps {
+        echo 'Running Tests'
+      }
+    }
+    stage('Package') {
+      steps {
+        echo 'Creating Package'
+      }
+    }
+  }
+}
