@@ -1,0 +1,29 @@
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Environment Variables') {
+
+            steps {
+
+                echo "Build Number : ${env.BUILD_NUMBER}"
+
+                echo "Job Name : ${env.JOB_NAME}"
+
+                echo "Build URL : ${env.BUILD_URL}"
+
+                echo "Workspace : ${env.WORKSPACE}"
+
+                sh 'pwd'
+
+                sh 'ls -la'
+
+            }
+
+        }
+
+    }
+
+}
