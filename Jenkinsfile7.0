@@ -1,0 +1,33 @@
+pipeline {
+
+    agent any
+
+    environment {
+
+        TRAINER="Komal"
+
+        COURSE="Jenkins"
+
+        INSTITUTE="Fortune Cloud Institute"
+
+    }
+
+    stages {
+
+        stage('Custom Variables') {
+
+            steps {
+
+                echo "Trainer : ${TRAINER}"
+
+                echo "Course : ${COURSE}"
+
+                echo "Institute : ${INSTITUTE}"
+
+            }
+
+        }
+
+    }
+
+}
