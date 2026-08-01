@@ -1,0 +1,12 @@
+pipeline {
+  agent any
+  stages {
+    stage('Private Repository Test') {
+      steps {
+        echo 'Successfully accessed private Github repository'
+        sh 'pwd'
+        sh 'ls -la'
+      }
+    }
+  }
+}
