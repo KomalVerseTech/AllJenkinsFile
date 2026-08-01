@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    stages {
+        stage('Credential Test') {
+            steps {
+                withCredentials([
+                    string(
+                        credentialsId: 'github-pat',
+                        variable: 'MY_SECRET'
+                        )
+                        ]) {
+                            sh 'echo "Credential is available to the build"'
+                        }
+            }
+        }
+    }
+}
