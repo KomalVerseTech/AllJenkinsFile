@@ -1,0 +1,19 @@
+# First Parameter String
+pipeline {
+  agent any
+  parameters {
+
+    string(
+      name: 'STUDENT_NAME',
+      defualtValue: 'Komal',
+      description: 'Enter Student Name'
+      }
+      }
+      stages {
+        stage('Print Parameter') {
+          steps {
+            echo "Student Name = ${params.STUDENT_NAME}"
+          }
+        }
+      }
+      }
