@@ -67,3 +67,22 @@ steps {
 }
 }
 }
+# Boolean Parameter
+pipeline {
+  agent any
+
+  parameters {
+    booleanParam(
+        name: 'DEPLOY',
+        defaultValue: true,
+        description: 'Deploy Application?'
+)
+}
+stages {
+    stage('Decision') {
+steps {
+  echo "Deploy = ${params.DEPLOY}"
+}
+}
+}
+}
