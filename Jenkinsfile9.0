@@ -43,3 +43,27 @@ parameters {
 }
 }
 }
+
+#Choice Parameter
+pipeline {
+  agent any 
+  parameters {
+    choice(
+      name: 'ENVIRONMENT',
+    choices: [
+        'DEV',
+        'QA',
+        'PROD',
+        'TEST'
+],
+    description: 'Select Environment'
+)
+}
+  stages {
+    stage('Deploy') {
+steps {
+      echo "Deploying to ${params.ENVIRONMENT}'
+}
+}
+}
+}
