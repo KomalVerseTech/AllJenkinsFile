@@ -17,3 +17,28 @@ pipeline {
         }
       }
       }
+
+# Multiple Parameters
+pipeline {
+agent any
+parameters {
+
+  string(
+      name: 'NAME',
+      defaultValue: 'Komal',
+      description: 'Enter Name'
+)
+  string(
+      name: 'COURSE',
+      defaultValue: 'Jenkins',
+      description: 'Enter Course'
+)
+}
+    stage('Student Details') {
+      steps {
+          echo "Name : ${params.NAME}"
+          echo "Course : ${params.COURSE}"
+}
+}
+}
+}
