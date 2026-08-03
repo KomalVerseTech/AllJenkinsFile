@@ -34,6 +34,7 @@ parameters {
       description: 'Enter Course'
 )
 }
+    stages {
     stage('Student Details') {
       steps {
           echo "Name : ${params.NAME}"
