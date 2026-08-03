@@ -1,0 +1,20 @@
+pipeline {
+
+  agent any
+
+environment {
+  COURSE="Jenkins"
+}
+
+stages {
+  stage('Shell Example') {
+
+  steps {
+
+      sh 'echo $COURSE'
+      sh 'echo $BUILD_NUMBER'
+      sh 'echo $JOB_NAME'
+}
+}
+}
+}
