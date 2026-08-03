@@ -86,3 +86,34 @@ steps {
 }
 }
 }
+
+# Real Flow
+pipeline {
+  agent any
+  parameters {
+    string(
+      name: 'APPLICATION',
+      defaultValue: 'StudentApp',
+      description: 'Application Name'
+)
+choice(
+    name: 'ENV',
+    choices: ['DEV', 'QA', 'PROD'],
+    description: 'Select Environament'
+)
+booleanParam(
+  name: 'Deploy',
+  defaultValue: true,
+  description: 'Deploy?'
+)
+}
+stages {
+  stage('Build Info') {
+steps {
+    echo "Application : ${params.APPLICATION}"
+    echo "Environment : ${params.ENV}"
+    echo "Deploy : ${params.DEPLOY}"
+}
+}
+}
+}
