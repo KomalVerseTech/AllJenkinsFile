@@ -29,7 +29,7 @@ stage('Deploy') {
 }
 }
 
-#JenkinsFile
+#Github-->Jenkins -->  Maven
 pipeline {
 	agent any 
 	stages {
@@ -71,4 +71,98 @@ pipeline {
 		}
 	}
 }
+#Github Webhooks Practical
 
+#Post Block in Jenkins Pipeline
+A Post block runs after all stages finish
+pipeline {
+	agent any
+	stages {
+		stage('Build') {
+			steps {
+				echo "Building Application..."
+}
+}
+}
+post {
+	success {
+		echo "Build Completed Successfully."
+}
+}
+}
+
+#Failure Block
+pipeline {
+	agent any
+	stages {
+		stage('Test') {
+			steps {
+				sh "exit 1"
+}
+}
+}
+post {
+	failure {
+		echo "Build Failed."
+}
+}
+}
+
+# Complete Flow
+pipeline {
+	agent any
+	stages {
+		stage('Compile') {
+			steps {
+				echo "Compiling.."
+}
+}
+}
+post {
+success {
+	echo "Application Built Successfully."
+}
+failure {
+	echo "Application Build Failed."
+}
+always {
+	echo "Pipeline Finished."
+}
+}
+}
+
+# Jenkins Build Status
+- Success = Everything passed
+- Failure = Build/Test failed
+- Unstable = Build Succeeded but some tests failed
+- Aborted = User stopped the build
+
+# When Condition in Jenkins Pipeline
+when decides whether a stage execute or not
+pipeline {
+	agent any
+	parameters {
+		booleanParam(
+			name: 'DEPLOY',
+			defaultValue: true,
+			description: 'Deploy Application?'
+)
+}
+stages {
+	stage('Build') {
+		steps {
+			echo "Building Application ..."
+}
+}
+stage('Deploy') {
+ when {
+	expression {
+		return params.DEPLOY
+}
+}
+steps {
+	echo "Deploying Application..."
+}
+}
+}
+}
