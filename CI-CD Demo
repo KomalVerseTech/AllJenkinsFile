@@ -199,3 +199,59 @@ pipeline {
 		}
 	}
 }
+
+# Input Step
+The input step pauses the pipeline and waits for user approval.
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building Application..."
+            }
+        }
+        stage('Approval') {
+            steps {
+                input message: 'Do you want to deploy?', ok: 'Deploy'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo "Deploying Application..."
+            }
+        }
+            }
+        }
+
+
+pipeline {
+agent any
+stages {
+stage('Compile') {
+steps {
+	echo "Compiling.."
+}
+}
+stage('Test') {
+steps {
+	echo "Running Tests..."
+}
+}
+stage('Approval') {
+steps {
+	input message: "All tests passed. Continue deployment?", ok: "Approve"
+}
+}
+stage('Deploy') {
+steps {
+	echo "Application Deployed Successfully."
+}
+}
+}
+post {
+	success {
+	echo "Pipeline Completed."
+}
+}
+}
