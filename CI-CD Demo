@@ -1,0 +1,30 @@
+pipeline {
+  agent any
+  stages {
+    stage('Checkout') {
+      steps {
+        echo 'Downloading Source Code'
+}
+}
+stage('Compile') {
+steps {
+  echo 'Compiling Java Application'
+}
+}
+stage('Test') {
+  steps {
+    echo 'Running Unit Tests'
+}
+}
+stage('Package') {
+  steps {
+    echo 'Creating JAR File'
+}
+}
+stage('Deploy') {
+  steps {
+    echo 'Deploying Application'
+}
+}
+}
+}
