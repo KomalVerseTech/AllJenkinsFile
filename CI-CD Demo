@@ -419,3 +419,23 @@ stage('Notification') {
 }
 }
 
+# Types of Credentials
+1. Secret Text = Github PAT, API Tokens
+2. Username with Password = Docker Hub, Nexus
+3. SSH Username with Private Key = GitHub SSH, Linux Server
+4. Secret File = Certificates, JSON Keys
+
+1. Secret Text
+pipeline {
+	agent any
+		environment {
+		GITHUB_TOKEN = credentials('github-pat')
+}
+	stages {
+		stage('Verify') {
+			steps {
+				echo "Credential Loaded Successfully"
+}
+}
+}
+}
