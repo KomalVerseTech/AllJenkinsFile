@@ -439,3 +439,18 @@ pipeline {
 }
 }
 }
+
+# Username & Password Credentials
+pipeline {
+	agent any
+		environment {
+		DOCKER = credentials('docker-login')
+}
+	stages {
+		stage('Login') {
+			steps {
+				echo "Docker login successfully"
+}
+}
+}
+}
