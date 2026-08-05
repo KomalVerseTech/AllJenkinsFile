@@ -454,3 +454,6 @@ pipeline {
 }
 }
 }
+
+Task:
+Developer --> git push --> Github --> Jenkins --> Checkout --> Clean --> Compile --> Test --> Package --> Archive --> manual Approval --> Deploy
