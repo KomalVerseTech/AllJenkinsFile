@@ -457,3 +457,85 @@ pipeline {
 
 Task:
 Developer --> git push --> Github --> Jenkins --> Checkout --> Clean --> Compile --> Test --> Package --> Archive --> manual Approval --> Deploy
+
+pipeline {
+	agent any
+
+	parameters {
+		choice(
+			name: 'ENV',
+			choices: ['DEV','QA','PROD'],
+			descrition: 'Select Environment'
+)
+booleanParam(
+	name: 'DEPLOY',
+	DefaultValue: true,
+	description: 'Deploy Application'
+)
+}
+stages {
+	stage('Checkout') {
+		steps {
+			echo "Checking out code from Github..."
+}
+}
+stage('Clean') {
+	steps {
+	sh 'mvn clean'
+}
+}
+stage('Compile') {
+	steps {
+	sh 'mvn compile'
+}
+}
+stage('Test') {
+	steps {
+	sh 'mvn test'
+}
+}
+stage('Package') {
+	steps {
+	sh 'mvn package'
+}
+}
+stage('Approval') {
+when {
+	expession {
+		return params.DEPLOY
+}
+}
+steps {
+	input message: "Deploy to ${params.ENV} ?', ok:"DEPLOY"
+}
+}
+stage('Deploy') {
+	when {
+		expression {
+			return params.DEPLOY
+}
+}
+steps {
+	script {
+		if(params.ENV == "PROD"){
+			echo "Deploying to Production.."
+}
+else {
+	echo "Deploying to ${params.ENV}"
+}
+}
+}
+}
+}
+post {
+	success {
+		echo "Pipeline Completed Succesfully"
+}
+	failure {
+		echo "Pipeline failed"
+}
+	always {
+echo "Pipeline Finished"
+}
+}
+}
