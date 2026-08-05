@@ -255,3 +255,167 @@ post {
 }
 }
 }
+
+# Parallel-Demo
+pipeline {
+	agent any
+stages {
+	stage('Build') {
+	steps {
+		echo "Building Application..."
+}
+}
+	stage('Testing') {
+	parallel {
+	stage('Unit Test') {
+		steps {
+			echo "Running unit Tests..."
+}
+}
+stage('Code Scan') {
+	steps {
+		echo "Running Code Scan..."
+}
+}
+}
+}
+	stage('Package') {
+	steps {
+		echo "Creating JAR File..."
+}
+}
+}
+}
+
+# Parallel another task
+pipeline {
+	agent any
+	stages {
+	stage('Student Task') {
+		parallel {
+		stage('AWS') {
+			steps {
+				echo "Learning AWS"
+}
+}
+stage('Linux') {
+	steps {
+	echo "Learning Linux"
+}
+}
+stage('Jenkins') {
+steps {
+	echo "Learning Jenkinns"
+}
+}
+}
+}
+}
+}
+
+#String Parameter Pipeline
+pipeline {
+	agent any
+	 parameters {
+		string(
+			name: 'ENV',
+			defaultValue: 'dev',
+			description: 'Deployment Environment'
+)
+}
+stages {
+	stage('Show Parameter') {
+		steps {
+			echo "Environment is ${params.ENV}"
+}
+}
+}
+}
+
+# Parameter -Demo
+pipeline {
+	agent any
+	 parameters {
+		string(
+			name: 'ENV',
+			defaultValue: 'dev',
+			description: 'Deployment Environment'
+)
+}
+stages {
+	stage('Show Environment') {
+		steps {
+			echo "Selected Environment is ${params.ENV}"
+}
+}
+
+stage('Deployment') {
+	steps {
+	script {
+		if (params.ENV == "prod") {
+			echo "Deploying to Production..."
+} else {
+		echo "Deploying to ${params.ENV}..."
+}
+}
+}
+}
+}
+}
+#Choice Parameter
+pipeline {
+	agent any
+	parameters {
+		choice(
+			name: 'ENV',
+			choices: ['dev', 'test', 'prod', 'cloud'],
+			description: 'Select Environment'
+)
+}
+stages {
+	stage('Display Environment') {
+		steps {
+			echo "Selected Environment: ${params.ENV}"
+
+		stage('Deploy') {
+			steps {
+				echo "Deploying to ${params.ENV} environment..."
+}
+}
+}
+}
+
+# Boolean-Demo
+pipeline {
+	agent any
+		parameters {
+			booleanParam(
+		name: 'Deploy',
+		defaultValue: true,
+		description: 'Deploy Application?'
+)
+}
+stages {
+	stage('Build') {
+		steps {
+			echo "Building Application..."
+}
+}
+stage('Deploy') {
+	when {
+		expression {
+			return params.Deploy
+}
+}
+steps {
+echo "Deploying Application..."
+}
+}
+stage('Notification') {
+    steps {
+        echo "Pipeline Finished"
+    }
+}
+}
+}
+
