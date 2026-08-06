@@ -1,0 +1,255 @@
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Matrix Build') {
+
+            matrix {
+
+                axes {
+
+                    axis {
+
+                        name 'JAVA_VERSION'
+
+                        values '17','21'
+
+                    }
+
+                    axis {
+
+                        name 'ENVIRONMENT'
+
+                        values 'DEV','QA'
+
+                    }
+
+                }
+
+                stages {
+
+                    stage('Build') {
+
+                        steps {
+
+                            echo "Java Version : ${JAVA_VERSION}"
+
+                            echo "Environment : ${ENVIRONMENT}"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+##########
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Matrix Build') {
+
+            matrix {
+
+                axes {
+
+                    axis {
+                        name 'JAVA_VERSION'
+                        values '17', '21'
+                    }
+
+                    axis {
+                        name 'ENVIRONMENT'
+                        values 'DEV', 'QA', 'PROD'
+                    }
+
+                }
+
+                excludes {
+
+                    exclude {
+
+                        axis {
+                            name 'JAVA_VERSION'
+                            values '17'
+                        }
+
+                        axis {
+                            name 'ENVIRONMENT'
+                            values 'PROD'
+                        }
+
+                    }
+
+                }
+
+                stages {
+
+                    stage('Build') {
+
+                        steps {
+
+                            echo "================================"
+
+                            echo "Java Version : ${JAVA_VERSION}"
+
+                            echo "Environment  : ${ENVIRONMENT}"
+
+                            echo "Building Application..."
+
+                            echo "================================"
+
+                            sleep(time:5, unit:'SECONDS')
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+###############
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Matrix Build') {
+
+            matrix {
+
+                axes {
+
+                    axis {
+
+                        name 'JAVA_VERSION'
+
+                        values '17','21'
+
+                    }
+
+                    axis {
+
+                        name 'ENVIRONMENT'
+
+                        values 'DEV','QA'
+
+                    }
+
+                    axis {
+
+                        name 'BROWSER'
+
+                        values 'Chrome','Firefox'
+
+                    }
+
+                }
+
+                stages {
+
+                    stage('Testing') {
+
+                        steps {
+
+                            echo "Java : ${JAVA_VERSION}"
+
+                            echo "Environment : ${ENVIRONMENT}"
+
+                            echo "Browser : ${BROWSER}"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+##############
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Matrix Build') {
+            matrix {
+                axes {
+                    axis {
+                        name 'JAVA'
+                        values '17', '21'
+                    }
+                    axis {
+                        name 'ENV'
+                        values 'DEV', 'QA'
+                    }
+                }
+
+                stages {
+                    stage('Build') {
+                        steps {
+                            echo "Building Java ${JAVA} - ${ENV}"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Parallel Demo') {
+            parallel {
+                stage('Unit Test') {
+                    steps {
+                        echo "Unit Test"
+                    }
+                }
+
+                stage('API Test') {
+                    steps {
+                        echo "API Test"
+                    }
+                }
+
+                stage('Security Scan') {
+                    steps {
+                        echo "Security Scan"
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+}
