@@ -573,3 +573,81 @@ pipeline {
 }
 }
 }
+
+######################
+AWS-S3 Integration
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Create Artifact') {
+
+            steps {
+
+                sh '''
+                    echo "Student Application Build Successful" > student-app.txt
+                '''
+
+            }
+
+        }
+
+        stage('Check Artifact') {
+
+            steps {
+
+                sh '''
+                    ls -l
+                    cat student-app.txt
+                '''
+
+            }
+
+        }
+
+        stage('Check AWS Access') {
+
+            steps {
+
+                sh '''
+                    aws sts get-caller-identity
+                '''
+
+            }
+
+        }
+
+        stage('Upload to S3') {
+
+            steps {
+
+                sh '''
+                    aws s3 cp student-app.txt \
+                    s3://jenkins-aws-demo-2026/student-app.txt
+                '''
+
+            }
+
+        }
+
+    }
+
+    post {
+
+        success {
+
+            echo 'AWS S3 Upload Successful!'
+
+        }
+
+        failure {
+
+            echo 'Pipeline Failed!'
+
+        }
+
+    }
+
+}
