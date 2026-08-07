@@ -539,3 +539,37 @@ echo "Pipeline Finished"
 }
 }
 }
+
+################
+Options
+Useful Pipeline options
+1. Timeout
+options {
+	timeout(time: 10, unit: 'MINUTES')
+}
+
+2. Timestamps
+options {
+	timestamps()
+}
+
+3. Disable Concurrent Builds
+options {
+	disableConcurrentBuilds()
+}
+
+pipeline {
+	agent any
+	options {
+		timeout(time: 10, unit: 'MINUTES')
+		timestamps()
+		disableConcurrentBuilds()
+}
+	stages {
+		stage('Build') {
+			steps {
+				echo "Building Application..."
+}
+}
+}
+}
